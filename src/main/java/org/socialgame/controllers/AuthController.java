@@ -1,7 +1,7 @@
 package org.socialgame.controllers;
 
 import org.socialgame.dto.AuthResponse;
-import org.socialgame.dto.LoginRequest;
+import org.socialgame.dto.LoginRequest; // <--- Importamos tu clase de Kotlin
 import org.socialgame.repositories.UserRepository;
 import org.socialgame.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.socialgame.entities.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*; // Simplificado para incluir CrossOrigin
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*") // Crucial para conectar con Jetpack Compose y AWS después
 public class AuthController {
 
     @Autowired
@@ -30,16 +28,19 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         // 1. Buscar al usuario
-        org.socialgame.entities.User user = userRepository.findByUsername(request.username());
+        // Kotlin genera "getUsername()" automáticamente para la propiedad "username"
+        User user = userRepository.findByUsername(request.getUsername());
 
         // 2. Verificar contraseña (usando el encoder)
-        if (user != null && passwordEncoder.matches(request.password(), user.getPassword())) {
+        // Kotlin genera "getPassword()" automáticamente
+        if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+
             // 3. Generar el token si es correcto
             String token = jwtService.generateToken(user.getUsername());
             return ResponseEntity.ok(new AuthResponse(token));
         }
 
-        // 4. Manejo de error si falla (Punto 5 de tu lista: Manejo de errores)
+        // 4. Manejo de error si falla
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
 
