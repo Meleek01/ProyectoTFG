@@ -14,12 +14,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.csrf(csrf -> csrf.disable())
+        http
+                .csrf(csrf -> csrf.disable()) // Una sola vez y fuera de la cadena si prefieres
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        // AÑADE ESTA LÍNEA para que Swagger pueda publicar posts sin Token por ahora
                         .requestMatchers("/api/posts/**").permitAll()
                         .anyRequest().authenticated()
                 );
