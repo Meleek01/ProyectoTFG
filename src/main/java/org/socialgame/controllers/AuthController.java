@@ -31,17 +31,29 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        // LOG 1: ¿Qué está llegando del emulador?
+        System.out.println("DEBUG: Intento de login con usuario: [" + request.getUsername() + "]");
+        System.out.println("DEBUG: Contraseña recibida: [" + request.getPassword() + "]");
+
         User user = userRepository.findByUsername(request.getUsername());
 
-        if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            String token = jwtService.generateToken(user.getUsername());
+        if (user == null) {
+            System.out.println("DEBUG: El usuario no existe en la DB");
+            return ResponseEntity.ok(new AuthResponse(null, "Usuario no encontrado", false));
+        }
 
-            // Usamos el record corregido
+        // LOG 2: ¿Qué hay en la DB?
+        System.out.println("DEBUG: Usuario encontrado. Hash en DB: " + user.getPassword());
+
+        boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        System.out.println("DEBUG: ¿La contraseña coincide?: " + matches);
+
+        if (matches) {
+            String token = jwtService.generateToken(user.getUsername());
             return ResponseEntity.ok(new AuthResponse(token, "¡Login Correcto!", true));
         }
 
-
-        return ResponseEntity.ok(new AuthResponse(null, "Usuario o contraseña incorrectos", false));
+        return ResponseEntity.ok(new AuthResponse(null, "Contraseña incorrecta", false));
     }
 
     @PostMapping("/register")
