@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll() // Incluimos la nueva entidad Post
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .anyRequest().permitAll() // Permitimos TODO para descartar que sea el "portero"
+                        .anyRequest().permitAll()
                 )
 
                 // 5. Desactivamos protecciones de cabeceras que bloquean emuladores

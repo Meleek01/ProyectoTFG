@@ -9,7 +9,7 @@ class LoginService {
     class LoginService {
         fun verificarUsuario(user: String, pass: String): Boolean {
             // Logica bbdd
-            return user == "admin" && pass == "1234"
+            return user == "UTFG1347" && pass == "tfg-master123"
         }
     }
 }
