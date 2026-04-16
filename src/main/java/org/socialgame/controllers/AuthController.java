@@ -40,9 +40,8 @@ public class AuthController {
             return ResponseEntity.ok(new AuthResponse(token, "¡Login Correcto!", true));
         }
 
-        // Respuesta de error con el mismo formato
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new AuthResponse(null, "Usuario o contraseña incorrectos", false));
+
+        return ResponseEntity.ok(new AuthResponse(null, "Usuario o contraseña incorrectos", false));
     }
 
     @PostMapping("/register")
