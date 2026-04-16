@@ -31,31 +31,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        // 1. Buscar al usuario por username (como definimos en el LoginRequest de Kotlin)
         User user = userRepository.findByUsername(request.getUsername());
 
-        // 2. Verificar si el usuario existe y la contraseña coincide
         if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-
-            // 3. Generar el token JWT
             String token = jwtService.generateToken(user.getUsername());
 
-            // Enviamos un JSON con estructura clara para Kotlin
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("mensaje", "¡Login Correcto! Bienvenido.");
-            response.put("success", true);
-
-            return ResponseEntity.ok(response);
+            // Usamos el record corregido
+            return ResponseEntity.ok(new AuthResponse(token, "¡Login Correcto!", true));
         }
 
-        // 4. Si falla, devolvemos 401 (Unauthorized) con mensaje de error
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("token", null);
-        errorResponse.put("mensaje", "Usuario o contraseña incorrectos");
-        errorResponse.put("success", false);
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        // Respuesta de error con el mismo formato
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new AuthResponse(null, "Usuario o contraseña incorrectos", false));
     }
 
     @PostMapping("/register")
