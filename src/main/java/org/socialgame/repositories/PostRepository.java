@@ -7,5 +7,5 @@ import org.socialgame.entities.User;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByAuthorOrderByCreatedAtDesc(User author);
+    List<Post> findByUserOrderByCreatedAtDesc(User user);
 }
