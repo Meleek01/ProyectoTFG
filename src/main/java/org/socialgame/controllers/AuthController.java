@@ -2,6 +2,7 @@ package org.socialgame.controllers;
 
 import org.socialgame.dto.AuthResponse;
 import org.socialgame.dto.LoginRequest;
+import org.socialgame.dto.RegisterRequest;
 import org.socialgame.entities.User;
 import org.socialgame.repositories.UserRepository;
 import org.socialgame.security.JwtService;
@@ -40,12 +41,16 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(null, "Contraseña incorrecta", false));
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        if (userRepository.findByUsername(request.getUsername()) != null) {
             return ResponseEntity.badRequest().body("El usuario ya existe");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok("Usuario registrado con éxito");
     }
