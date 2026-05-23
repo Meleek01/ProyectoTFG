@@ -32,7 +32,7 @@ public class DataSeed implements CommandLineRunner {
             testUser.setPassword(passwordEncoder.encode("1234"));
             testUser.setXp(100);
             testUser.setLevel(1);
-            testUser.setCoins(50);
+            testUser.setCoins(500);
             testUser.setRole(Role.ROLE_USER); // Rol normal
             // De momento S3 en null o una URL por defecto
             testUser.setAvatarUrl("https://ui-avatars.com/api/?name=GamerPro");
