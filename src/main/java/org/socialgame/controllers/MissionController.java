@@ -18,20 +18,16 @@ public class MissionController {
     @Autowired
     private MissionService missionService;
 
-    // ── GET /api/missions → listar misiones del usuario ──────────────
     @GetMapping
     public ResponseEntity<List<Mission>> getMisiones(Authentication auth) {
         return ResponseEntity.ok(missionService.getMisiones(auth.getName()));
     }
 
-    // ── POST /api/missions → crear misión ────────────────────────────
     @PostMapping
     public ResponseEntity<Mission> crearMision(Authentication auth, @RequestBody Mission mission) {
         return ResponseEntity.ok(missionService.crearMision(auth.getName(), mission));
     }
 
-    // ── PATCH /api/missions/{id}/progress → actualizar progreso ──────
-    // Body: { "increment": 1 } o { "increment": -1 }
     @PatchMapping("/{id}/progress")
     public ResponseEntity<Mission> actualizarProgreso(
             Authentication auth,
@@ -41,7 +37,12 @@ public class MissionController {
         return ResponseEntity.ok(missionService.actualizarProgreso(auth.getName(), id, incremento));
     }
 
-    // ── DELETE /api/missions/{id} → eliminar misión ───────────────────
+    // ── POST /api/missions/{id}/claim → recoger recompensa ───────────
+    @PostMapping("/{id}/claim")
+    public ResponseEntity<?> reclamarRecompensa(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok(missionService.reclamarRecompensa(auth.getName(), id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarMision(Authentication auth, @PathVariable Long id) {
         missionService.eliminarMision(auth.getName(), id);

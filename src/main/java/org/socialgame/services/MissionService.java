@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MissionService {
@@ -17,32 +18,28 @@ public class MissionService {
     @Autowired
     private UserService userService;
 
-    // ── Obtener misiones del usuario ─────────────────────────────────
     public List<Mission> getMisiones(String username) {
         User user = userService.getByUsername(username);
         return missionRepository.findByUser(user);
     }
 
-    // ── Crear misión ─────────────────────────────────────────────────
     public Mission crearMision(String username, Mission mission) {
         User user = userService.getByUsername(username);
         mission.setUser(user);
         mission.setStatus("active");
         mission.setProgress(0);
+        mission.setClaimed(false);
         return missionRepository.save(mission);
     }
 
-    // ── Actualizar progreso ──────────────────────────────────────────
     public Mission actualizarProgreso(String username, Long missionId, int incremento) {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new RuntimeException("Misión no encontrada"));
 
-        // Verificar que la misión pertenece al usuario
         if (!mission.getUser().getUsername().equals(username)) {
             throw new RuntimeException("No autorizado");
         }
 
-        // No modificar misiones ya completadas
         if ("completed".equals(mission.getStatus())) {
             return mission;
         }
@@ -50,22 +47,50 @@ public class MissionService {
         int nuevoProgreso = Math.max(0, Math.min(mission.getProgress() + incremento, mission.getGoal()));
         mission.setProgress(nuevoProgreso);
 
-        // Completar misión si alcanza el objetivo
+        // Solo marca como completada, NO otorga recompensas todavía
         if (nuevoProgreso >= mission.getGoal()) {
             mission.setStatus("completed");
-            // Otorgar recompensas al usuario
-            userService.completarMision(
-                    mission.getUser().getId(),
-                    mission.getXpReward(),
-                    mission.getCoinReward(),
-                    0
-            );
         }
 
         return missionRepository.save(mission);
     }
 
-    // ── Eliminar misión ──────────────────────────────────────────────
+    // ── Reclamar recompensa ──────────────────────────────────────────
+    public Map<String, Object> reclamarRecompensa(String username, Long missionId) {
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new RuntimeException("Misión no encontrada"));
+
+        if (!mission.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("No autorizado");
+        }
+
+        if (!"completed".equals(mission.getStatus())) {
+            throw new RuntimeException("La misión no está completada");
+        }
+
+        if (mission.isClaimed()) {
+            throw new RuntimeException("La recompensa ya fue recogida");
+        }
+
+        // Otorgar recompensas
+        userService.completarMision(
+                mission.getUser().getId(),
+                mission.getXpReward(),
+                mission.getCoinReward(),
+                0
+        );
+
+        // Marcar como reclamada
+        mission.setClaimed(true);
+        missionRepository.save(mission);
+
+        return Map.of(
+                "xpReward", mission.getXpReward(),
+                "coinReward", mission.getCoinReward(),
+                "message", "¡Recompensa recogida!"
+        );
+    }
+
     public void eliminarMision(String username, Long missionId) {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new RuntimeException("Misión no encontrada"));
