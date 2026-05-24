@@ -399,7 +399,9 @@ h1 {
   border-radius: 16px;
   padding: 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-close {
@@ -459,6 +461,25 @@ h1 {
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
   color: #ff7070;
+}
+
+.modal-header { text-align: center; margin-bottom: 1.5rem; }
+.modal-logo { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); font-weight: 700; }
+.modal-subtitle { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.3rem; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+.form-hint { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+.required { color: var(--gold); }
+
+.form-legal {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 0.25rem;
 }
 
 .btn-block { width: 100%; justify-content: center; margin-top: 0.25rem; }
