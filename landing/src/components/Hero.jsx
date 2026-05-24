@@ -6,13 +6,25 @@ const DownloadIcon = () => (
   </svg>
 )
 
-export default function Hero() {
+export default function Hero({ user, onLoginClick, onLogout }) {
   return (
     <header className="hero">
       <div className="hero-bg"></div>
       <nav className="nav">
         <span className="logo">⚔️ FitHero</span>
-        <a className="nav-cta" href="#download">Descargar APK</a>
+        <div className="nav-right">
+          {user ? (
+            <>
+              <span className="nav-user">⚔️ {user}</span>
+              <button className="nav-cta nav-cta-ghost" onClick={onLogout}>Cerrar sesión</button>
+            </>
+          ) : (
+            <>
+              <button className="nav-cta nav-cta-ghost" onClick={onLoginClick}>Iniciar sesión</button>
+              <a className="nav-cta" href="#download">Descargar APK</a>
+            </>
+          )}
+        </div>
       </nav>
       <div className="hero-content">
         <div className="badge">TFG · DAM 2026</div>
