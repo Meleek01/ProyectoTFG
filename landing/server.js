@@ -1,15 +1,19 @@
-const express = require('express');
-const path = require('path');
+import express from 'express'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
-app.use(express.static(path.join(__dirname, 'public')));
+const app = express()
+const PORT = process.env.PORT || 3000
+
+app.use(express.static(join(__dirname, 'dist')))
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+  res.sendFile(join(__dirname, 'dist', 'index.html'))
+})
 
 app.listen(PORT, () => {
-  console.log(`FitHero landing running on port ${PORT}`);
-});
+  console.log(`FitHero landing running on port ${PORT}`)
+})
