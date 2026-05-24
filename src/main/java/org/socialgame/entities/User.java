@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +53,9 @@ public class User {
     @CollectionTable(name = "user_weekly_activity", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "activity")
     private List<Integer> weeklyActivity = new ArrayList<>(Collections.nCopies(7, 0));
+
+    // --- Anti-farmeo: último día de login ───────────────────────────
+    private LocalDate lastLoginDate;
 
     // --- Seguridad ---
     @Enumerated(EnumType.STRING)
