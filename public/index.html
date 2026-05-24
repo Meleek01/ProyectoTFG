@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitHero — Tu aventura fitness comienza aquí</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <nav class="nav">
+      <span class="logo">⚔️ FitHero</span>
+      <a class="nav-cta" href="#download">Descargar APK</a>
+    </nav>
+    <div class="hero-content">
+      <div class="badge">TFG · DAM 2026</div>
+      <h1>Convierte tu <span class="accent">entrenamiento</span><br>en una épica aventura</h1>
+      <p class="subtitle">
+        FitHero es una app de fitness gamificada con mecánicas RPG. Completa misiones diarias,
+        sube de nivel, gana monedas y desbloquea equipamiento para tu héroe.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#download">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar gratis
+        </a>
+        <a class="btn btn-secondary" href="#features">Ver características</a>
+      </div>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </header>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar">
+    <div class="stat">
+      <span class="stat-number">5</span>
+      <span class="stat-label">Categorías de misiones</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-number">20</span>
+      <span class="stat-label">Logros desbloqueables</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-number">∞</span>
+      <span class="stat-label">Niveles de héroe</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-number">3</span>
+      <span class="stat-label">Tiendas de equipamiento</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">¿Qué puedes hacer?</h2>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">🗡️</div>
+          <h3>Misiones diarias</h3>
+          <p>Completa retos de <strong>fuerza, cardio, salud, hábito y mente</strong>. Cada categoría tiene sus propias misiones con recompensas de XP y monedas.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⬆️</div>
+          <h3>Sistema de niveles RPG</h3>
+          <p>Gana XP con cada misión completada. El umbral de nivel sube exponencialmente (factor 1.4x), igual que en un RPG real. Tu rango cambia de <em>Héroe Novato</em> a <em>Titán Legendario</em>.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Economía de monedas</h3>
+          <p>Gana monedas al ratio 10:1 respecto al XP. Gástalas en la tienda para obtener potenciadores, equipamiento especial y objetos únicos.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Sistema de logros</h3>
+          <p>20 logros que se calculan en tiempo real según tu progreso. Desde el primero hasta los más épicos que requieren semanas de constancia.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛒</div>
+          <h3>Tienda in-app</h3>
+          <p>Tres pestañas: <strong>Potenciadores</strong> para obtener ventajas temporales, <strong>Equipamiento</strong> para personalizar a tu héroe, y objetos <strong>Especiales</strong> únicos.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Android nativo</h3>
+          <p>Construida con <strong>Kotlin + Jetpack Compose</strong> y Material Design 3. Fluida, moderna y optimizada para Android 8.0+.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLES SECTION -->
+  <section class="roles">
+    <div class="container">
+      <h2 class="section-title">Tu camino de héroe</h2>
+      <p class="section-subtitle">A medida que subes de nivel, tu rango narrativo evoluciona</p>
+      <div class="roles-track">
+        <div class="role-item">
+          <span class="role-icon">🌱</span>
+          <span class="role-name">Héroe Novato</span>
+        </div>
+        <div class="role-arrow">→</div>
+        <div class="role-item">
+          <span class="role-icon">⚔️</span>
+          <span class="role-name">Guerrero</span>
+        </div>
+        <div class="role-arrow">→</div>
+        <div class="role-item">
+          <span class="role-icon">🛡️</span>
+          <span class="role-name">Campeón</span>
+        </div>
+        <div class="role-arrow">→</div>
+        <div class="role-item">
+          <span class="role-icon">👑</span>
+          <span class="role-name">Leyenda</span>
+        </div>
+        <div class="role-arrow">→</div>
+        <div class="role-item highlight">
+          <span class="role-icon">⚡</span>
+          <span class="role-name">Titán Legendario</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="download" id="download">
+    <div class="container">
+      <div class="download-card">
+        <div class="download-text">
+          <h2>Descarga FitHero</h2>
+          <p>Instala la app directamente en tu dispositivo Android. Requiere Android 8.0 (API 26) o superior.</p>
+          <div class="requirements">
+            <span class="req">📱 Android 8.0+</span>
+            <span class="req">💾 ~15 MB</span>
+            <span class="req">🆓 Completamente gratis</span>
+          </div>
+          <div class="install-note">
+            <strong>Nota:</strong> Al instalar un APK externo, ve a <em>Ajustes → Seguridad → Instalar apps desconocidas</em> y actívalo para tu navegador o gestor de archivos.
+          </div>
+          <a class="btn btn-primary btn-large" href="https://github.com/Meleek01/ProyectoTFG/releases/latest/download/FitHero.apk" id="apk-download">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar APK
+          </a>
+        </div>
+        <div class="download-visual">
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <div class="screen-header">FitHero</div>
+              <div class="screen-xp">
+                <span>Nivel 7 · Guerrero</span>
+                <div class="xp-bar"><div class="xp-fill" style="width: 65%"></div></div>
+              </div>
+              <div class="screen-mission">
+                <div class="mission-item">⚔️ 50 flexiones <span class="m-xp">+120 XP</span></div>
+                <div class="mission-item">🏃 Correr 5km <span class="m-xp">+200 XP</span></div>
+                <div class="mission-item completed">💧 2L de agua ✓</div>
+              </div>
+              <div class="screen-coins">💰 1.340 monedas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="tech">
+    <div class="container">
+      <h2 class="section-title">Stack técnico</h2>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-logo">🟦</span>
+          <span>Kotlin 1.9</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-logo">🎨</span>
+          <span>Jetpack Compose</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-logo">📐</span>
+          <span>Material Design 3</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-logo">🧭</span>
+          <span>Navigation Compose</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-logo">🔄</span>
+          <span>ViewModel + StateFlow</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-logo">🖼️</span>
+          <span>Coil 2.6</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>FitHero · Trabajo de Fin de Grado · DAM 2026</p>
+      <p>Desarrollado por <strong>Ángel Parro</strong> y <strong>Adrián Ologu</strong></p>
+      <p class="footer-tutor">Tutor: Damián Sualdea</p>
+    </div>
+  </footer>
+
+</body>
+</html>
