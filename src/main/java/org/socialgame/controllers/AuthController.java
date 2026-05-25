@@ -1,5 +1,6 @@
 package org.socialgame.controllers;
 
+import jakarta.validation.Valid;
 import org.socialgame.dto.AuthResponse;
 import org.socialgame.dto.LoginRequest;
 import org.socialgame.dto.RegisterRequest;
@@ -43,7 +44,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()) != null) {
             return ResponseEntity.badRequest().body("El usuario ya existe");
         }
