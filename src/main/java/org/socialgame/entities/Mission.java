@@ -10,10 +10,7 @@ import java.time.LocalDate;
 @Table(name = "missions")
 @Data
 public class Mission {
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore // Asegúrate de importar com.fasterxml.jackson.annotation.JsonIgnore
-    private User user;
+
 
 
     @Id
