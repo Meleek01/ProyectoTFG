@@ -36,11 +36,23 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Permite absolutamente todo lo que empiece por /api/missions
-                        .requestMatchers("/api/missions/**").permitAll()
+                        // 1. TODO lo que sea auth debe ser público
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll() // Login/Registro libre
+                        .requestMatchers("/api/missions/**").authenticated() // Misiones requiere token
+                        .anyRequest().authenticated()
+
+                        // 2. Swagger (si lo usas) también público
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+
+
+                        // 3. El resto debe estar autenticado
                         .anyRequest().authenticated()
                 )
+                // 4. El filtro JWT verifica el token en las rutas protegidas
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
