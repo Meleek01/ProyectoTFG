@@ -1,6 +1,7 @@
 package org.socialgame.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -9,6 +10,11 @@ import java.time.LocalDate;
 @Table(name = "missions")
 @Data
 public class Mission {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore // Asegúrate de importar com.fasterxml.jackson.annotation.JsonIgnore
+    private User user;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
