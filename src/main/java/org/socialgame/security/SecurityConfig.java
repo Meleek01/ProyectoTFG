@@ -37,6 +37,7 @@ public class SecurityConfig {
                         // Públicos
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
 
                         // Misiones: Permitir explícitamente los métodos para evitar el 403
                         .requestMatchers(HttpMethod.GET, "/api/missions/**").authenticated()
