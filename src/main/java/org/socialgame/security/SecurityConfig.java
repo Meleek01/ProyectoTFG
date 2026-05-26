@@ -3,7 +3,6 @@ package org.socialgame.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,17 +37,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 1. TODO lo que sea auth debe ser público
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll() // Login/Registro libre
-                        .requestMatchers("/api/missions/**").authenticated() // Misiones requiere token
-                        .anyRequest().authenticated()
-
-                        // 2. Swagger (si lo usas) también público
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-
-
-                        // 3. El resto debe estar autenticado
                         .anyRequest().authenticated()
                 )
                 // 4. El filtro JWT verifica el token en las rutas protegidas
