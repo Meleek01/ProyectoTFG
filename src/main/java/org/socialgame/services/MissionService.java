@@ -162,12 +162,17 @@ public class MissionService {
             throw new RuntimeException("No tienes permiso para editar esta misión");
         }
 
-        // 3. Actualizamos los campos necesarios
         mission.setTitle(missionDetails.getTitle());
         mission.setDescription(missionDetails.getDescription());
-        // Añade aquí el resto de campos que permitas editar
+        mission.setIcon(missionDetails.getIcon());
+        mission.setColorHex(missionDetails.getColorHex());
+        mission.setGoal(missionDetails.getGoal());
+        mission.setUnit(missionDetails.getUnit());
+        mission.setXpReward(missionDetails.getXpReward());
+        mission.setCoinReward(missionDetails.getCoinReward());
+        mission.setCategory(missionDetails.getCategory());
+        mission.setDeadline(missionDetails.getDeadline());
 
-        // 4. Guardamos
         return missionRepository.save(mission);
     }
 }

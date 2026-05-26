@@ -55,6 +55,7 @@ public class Mission {
     private LocalDate createdDate = LocalDate.now();
 
     // Relación con el usuario dueño de la misión
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
