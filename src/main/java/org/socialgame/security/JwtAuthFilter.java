@@ -30,33 +30,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         return path.startsWith("/api/auth/");
     }
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader("Authorization");
 
-        // Si no hay token, simplemente pasamos al siguiente filtro (Spring Security se encargará de denegar si hace falta)
+        // 1. Si no hay token, dejamos pasar (Spring Security se encargará de denegar si hace falta)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Si hay token, intentamos validarlo
-        String token = authHeader.substring(7);
-        String username = jwtService.extractUsername(token);
+        // 2. Extraer el token y validar
+        final String jwt = authHeader.substring(7);
+        final String username = jwtService.extractUsername(jwt);
 
+        // 3. Si el usuario existe y no está autenticado, autenticamos
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userRepository.findByUsername(username);
-            if (user != null && jwtService.isTokenValid(token, username)) {
-                String role = user.getRole().name();
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                username,
-                                null,
-                                List.of(new SimpleGrantedAuthority(role))
-                        );
+            if (jwtService.isTokenValid(jwt, username)) {
+
+                // Aquí es donde "enchufas" al usuario en la sesión de Spring
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        username, null, List.of(new SimpleGrantedAuthority("USER")));
+
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("DEBUG: Usuario " + username + " autenticado con éxito");
             }
         }
 
