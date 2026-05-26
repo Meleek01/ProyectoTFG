@@ -38,9 +38,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // <-- Esto permite el login
-                        .requestMatchers("/api/missions/**").authenticated() // <-- Protegemos misiones
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+
+                        // --- NUEVA CONFIGURACIÓN DE PRUEBA ---
+                        .requestMatchers("/api/missions/**").permitAll() // Abrimos todo el acceso
+                        // -------------------------------------
+
                         .anyRequest().authenticated()
+                )
+
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            System.out.println("DEBUG: ACCESO DENEGADO en: " + request.getRequestURI());
+                            accessDeniedException.printStackTrace();
+                            response.sendError(403, "Forbidden: " + accessDeniedException.getMessage());
+                        })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
