@@ -19,6 +19,4 @@ public class GlobalExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
-
-    // Aquí puedes añadir más excepciones como "UserNotFoundException"
 }

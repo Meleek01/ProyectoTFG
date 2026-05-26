@@ -3,6 +3,7 @@ package org.socialgame.controllers;
 import jakarta.validation.Valid;
 import org.socialgame.dto.AuthResponse;
 import org.socialgame.dto.LoginRequest;
+import org.socialgame.dto.MessageResponse;
 import org.socialgame.dto.RegisterRequest;
 import org.socialgame.entities.User;
 import org.socialgame.repositories.UserRepository;
@@ -46,13 +47,17 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()) != null) {
-            return ResponseEntity.badRequest().body("El usuario ya existe");
+            // Envolvemos el error en un objeto JSON también
+            return ResponseEntity.badRequest().body(new MessageResponse("El usuario ya existe"));
         }
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok("Usuario registrado con éxito");
+
+        // Devolvemos un objeto JSON en lugar de texto plano
+        return ResponseEntity.ok(new MessageResponse("Usuario registrado con éxito"));
     }
 }

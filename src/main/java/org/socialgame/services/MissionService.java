@@ -154,4 +154,20 @@ public class MissionService {
 
         missionRepository.delete(mission);
     }
+    public Mission editarMision(String username, Long id, Mission missionDetails) {
+        Mission mission = missionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Misión no encontrada"));
+
+        if (!mission.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("No tienes permiso para editar esta misión");
+        }
+
+        // 3. Actualizamos los campos necesarios
+        mission.setTitle(missionDetails.getTitle());
+        mission.setDescription(missionDetails.getDescription());
+        // Añade aquí el resto de campos que permitas editar
+
+        // 4. Guardamos
+        return missionRepository.save(mission);
+    }
 }

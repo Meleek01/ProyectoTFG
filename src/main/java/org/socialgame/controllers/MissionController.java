@@ -48,4 +48,11 @@ public class MissionController {
         missionService.eliminarMision(auth.getName(), id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Mission> editarMision(
+            Authentication auth,
+            @PathVariable Long id,
+            @RequestBody Mission missionDetails) {
+        return ResponseEntity.ok(missionService.editarMision(auth.getName(), id, missionDetails));
+    }
 }
