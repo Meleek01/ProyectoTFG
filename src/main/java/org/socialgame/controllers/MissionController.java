@@ -26,6 +26,7 @@ public class MissionController {
     @PostMapping
     public ResponseEntity<Mission> crearMision(Authentication auth, @RequestBody Mission mission) {
         return ResponseEntity.ok(missionService.crearMision(auth.getName(), mission));
+
     }
 
     @PatchMapping("/{id}/progress")
@@ -49,11 +50,26 @@ public class MissionController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/{id}")
-    public ResponseEntity<Mission> editarMision(
+    public ResponseEntity<?> editarMision(
             Authentication auth,
             @PathVariable Long id,
             @RequestBody Mission missionDetails) {
-        System.out.println("DEBUG: Petición PUT recibida para el ID: " + id);
-        return ResponseEntity.ok(missionService.editarMision(auth.getName(), id, missionDetails));
+
+        System.out.println("DEBUG: Petición recibida para el ID: " + id);
+
+        // 1. Validamos que la autenticación exista
+        if (auth == null || auth.getName() == null) {
+            System.out.println("ERROR: El usuario no está autenticado.");
+            return ResponseEntity.status(401).body("Usuario no autenticado");
+        }
+
+        try {
+            String username = auth.getName();
+            Mission updatedMission = missionService.editarMision(username, id, missionDetails);
+            return ResponseEntity.ok(updatedMission);
+        } catch (Exception e) {
+            System.out.println("ERROR en el servicio: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error al actualizar la misión: " + e.getMessage());
+        }
     }
 }
