@@ -35,28 +35,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable()) // Desactivamos CSRF totalmente
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-
-                        // --- NUEVA CONFIGURACIÓN DE PRUEBA ---
-                        .requestMatchers("/api/missions/**").permitAll() // Abrimos todo el acceso
-                        // -------------------------------------
-
-                        .anyRequest().authenticated()
-                )
-
-                .exceptionHandling(ex -> ex
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            System.out.println("DEBUG: ACCESO DENEGADO en: " + request.getRequestURI());
-                            accessDeniedException.printStackTrace();
-                            response.sendError(403, "Forbidden: " + accessDeniedException.getMessage());
-                        })
-                )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+                        .anyRequest().permitAll() // Permitimos absolutamente TODO
+                );
         return http.build();
     }
 
