@@ -53,7 +53,7 @@ public class MissionController {
             Authentication auth,
             @PathVariable Long id,
             @RequestBody Mission missionDetails) {
-
+        System.out.println("DEBUG: Petición PUT recibida para el ID: " + id);
         return ResponseEntity.ok(missionService.editarMision(auth.getName(), id, missionDetails));
     }
 }
