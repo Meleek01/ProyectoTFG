@@ -42,11 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // Misiones: Permitir explícitamente los métodos para evitar el 403
-                        .requestMatchers(HttpMethod.GET, "/api/missions/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/missions/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/missions/**").authenticated() // <--- ESTO ES LO QUE FALTABA
-                        .requestMatchers(HttpMethod.PATCH, "/api/missions/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/missions/**").authenticated()
+                        .requestMatchers("/api/missions/**").permitAll()
 
                         // Solo admin
                         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
