@@ -33,23 +33,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Lo que SÍ debe ser público
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-
-                        // 2. Lo que debe estar protegido (requiere token válido)
-                        .requestMatchers("/api/missions/**").authenticated()
+                        // Permite absolutamente todo lo que empiece por /api/missions
+                        .requestMatchers("/api/missions/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                // 3. Este filtro es el que hace el trabajo sucio de leer el token
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+                .build();
     }
 
     @Bean
