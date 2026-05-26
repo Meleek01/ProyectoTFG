@@ -3,6 +3,7 @@ package org.socialgame.services;
 import org.socialgame.entities.User;
 import org.socialgame.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User getById(Long userId) {
         return userRepository.findById(userId)
@@ -82,6 +86,12 @@ public class UserService {
         }
         user.setCoins(user.getCoins() - coste);
         return userRepository.save(user);
+    }
+
+    public void changePassword(String username, String newPassword) {
+        User user = getByUsername(username);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     private void incrementarActividadSemanal(User user) {

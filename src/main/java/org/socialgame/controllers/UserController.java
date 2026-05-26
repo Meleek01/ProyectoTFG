@@ -65,4 +65,16 @@ public class UserController {
         User user = userService.getByUsername(auth.getName());
         return ResponseEntity.ok(userService.gastarMonedas(user.getId(), body.get("amount")));
     }
+
+    // ── PATCH /api/users/me/password → cambiar contraseña ────────────
+    // Body: { "newPassword": "nueva1234" }
+    @PatchMapping("/me/password")
+    public ResponseEntity<?> changePassword(Authentication auth, @RequestBody Map<String, String> body) {
+        String newPassword = body.get("newPassword");
+        if (newPassword == null || newPassword.length() < 4) {
+            return ResponseEntity.badRequest().body("Mínimo 4 caracteres");
+        }
+        userService.changePassword(auth.getName(), newPassword);
+        return ResponseEntity.ok().body("Contraseña actualizada");
+    }
 }
