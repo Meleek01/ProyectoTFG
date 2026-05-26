@@ -36,18 +36,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
+        // Si no hay token, simplemente pasamos al siguiente filtro (Spring Security se encargará de denegar si hace falta)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // Si hay token, intentamos validarlo
         String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             User user = userRepository.findByUsername(username);
             if (user != null && jwtService.isTokenValid(token, username)) {
-                String role = user.getRole().name(); // "ROLE_USER" o "ROLE_ADMIN"
+                String role = user.getRole().name();
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 username,
