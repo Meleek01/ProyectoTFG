@@ -35,10 +35,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable()) // Desactivamos CSRF totalmente
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Permitimos absolutamente TODO
-                );
+                        // 1. Lo que SÍ debe ser público
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+
+                        // 2. Lo que debe estar protegido (requiere token válido)
+                        .requestMatchers("/api/missions/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                // 3. Este filtro es el que hace el trabajo sucio de leer el token
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
