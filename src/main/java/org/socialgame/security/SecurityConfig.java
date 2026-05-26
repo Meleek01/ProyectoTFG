@@ -3,6 +3,7 @@ package org.socialgame.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,15 +33,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Públicos
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+
+                        // Misiones: Permitir explícitamente los métodos para evitar el 403
+                        .requestMatchers(HttpMethod.GET, "/api/missions/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/missions/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/missions/**").authenticated() // <--- ESTO ES LO QUE FALTABA
+                        .requestMatchers(HttpMethod.PATCH, "/api/missions/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/missions/**").authenticated()
+
                         // Solo admin
                         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+
                         // Resto requiere autenticación
                         .anyRequest().authenticated()
                 )

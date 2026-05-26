@@ -1,5 +1,6 @@
 package org.socialgame.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -41,6 +42,7 @@ public class Mission {
     private int priority = 2;
 
     // Fecha límite
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deadline;
 
     // Si es misión del sistema o del usuario

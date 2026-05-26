@@ -53,6 +53,7 @@ public class MissionController {
             Authentication auth,
             @PathVariable Long id,
             @RequestBody Mission missionDetails) {
+
         return ResponseEntity.ok(missionService.editarMision(auth.getName(), id, missionDetails));
     }
 }
